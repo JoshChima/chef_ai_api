@@ -6,13 +6,13 @@ Chef AI is a conversational AI tool that helps users discover new recipes, learn
 
 ### Broad-Search Features (`chef/api/search/`):
 Broad search features allow users to search for recipes based on a variety of criteria, such as ingredients, cuisine, diet, and meal type.
-- **Recipe Search** (`/chat`): Find recipes conversationally by asking for recipes with specific ingredients or by asking for recipes by name.
+- **Recipe Search** (`/chat`): Find recipes conversationally by asking for recipes with certain ingredients or by asking for recipes by name.
 - **Recipe Search By Ingredients** (`/`): Find recipes by providing a list of ingredients you have on hand. <mark>This is passed into the request body</mark>
 
 
 ### Recipe Specific Features (`chef/api/recipe/{source_id}/`):
-- **Recipe Q&A**(`/qa`): Ask questions about a specific recipe, such as "What is the cooking time for this recipe?" or "What are the ingredients for this recipe?"
-- **Ingredient Check**(`/check`): Check if you have all the ingredients for a specific recipe.
+- **Recipe Q&A**(`/qa`): Ask questions about a recipe, such as "What is the cooking time for this recipe?" or "What are the ingredients for this recipe?"
+- **Ingredient Check**(`/check`): Check if you have all the ingredients for a recipe.
 - **Recipe Customization**: Customize a recipe by asking for ingredient substitutions or modifications via the chat interface. 
 
 ```mermaid
@@ -60,10 +60,10 @@ This node is responsible for routing the user query to the appropriate tool base
 | `/qa`      | Ask questions about a specific recipe |
 | `/check`   | Check if you have all the ingredients for a specific recipe. |
 
-<mark>Note: If the user passes a spcific api route, identifying user intent will be skipped.</mark>
+<mark>Note: If the user passes an api route, identifying user intent will be skipped.</mark>
 
 ### `prepare_search_query`
-This node is responsible for preparing the query with the necessary parameters, dictated by the scope of the search. There are two types of search: global and local. The global search is responsible for searching across all sources, while the local search is responsible for searching within a specific source such as a specific recipe.
+This node is responsible for preparing the query with the necessary parameters, dictated by the scope of the search. There are two types of search: global and local. The global search is responsible for searching across all sources, while the local search is responsible for searching within a source such as a specific recipe.
 
 ### `graph_search`
 This node is responsible for calling the global and local search tools to search for relevent information based on the query.
