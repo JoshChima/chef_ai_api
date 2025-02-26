@@ -18,7 +18,7 @@ Broad search features allow users to search for recipes based on a variety of cr
 - **Recipe Customization**: Customize a recipe by asking for ingredient substitutions or modifications via the chat interface. 
 
 ```mermaid
-graph TD
+graph LR
     %% Nodes:
     adq(analyze_and_delegate)
 
@@ -53,6 +53,7 @@ graph TD
     linkStyle 1,2,3 stroke:blue,stroke-width:4px,color:white;
     linkStyle 4,5,6,7 stroke:purple,stroke-width:4px,color:white;
     linkStyle 0,8,9,10 stroke:green,stroke-width:4px,color:white;
+    %%{init: {"flowchart": {"defaultRenderer": "elk"}} }%%
 ```
 
 
