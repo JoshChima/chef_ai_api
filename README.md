@@ -17,61 +17,54 @@ Broad search features allow users to search for recipes based on a variety of cr
 
 ```mermaid
 graph TD
-    rsq@{ shape: decision, label: "route_query"}
-
     %% Nodes:
-    glbs@{ shape: db, label: "tool: global_search"}
-    lcls@{ shape: db, label: "tool: local_search"}
-    gs(graph_search)
-    sr(summarize_result)
-    pras(parse_response_and_sources)
-    psq(prepare_search_query)
+    adq(analyze_and_delegate)
+
+    rar(review_and_reflect)
+
+    srch(search)
+
+    fr(finalize_response)
+
     icheck(ingredient_check)
 
+    asku(ask_user_for_more_information)
+
+    start@{ shape: circle, label: "start"} --> adq
     %% Edges:
+    %% Delegate
+    adq -- get sources--> srch
+    adq -- check ingredients for recipe --> icheck
+    adq -- ask user for more information --> asku
+    
+    %% Delegate Back
+    srch -- found sources/no other sources --> adq
+    rar -- not answerable --> adq
+    icheck -- checked ingredients/can't check --> adq
+    asku -- user input --> adq
 
-    %% - Search
-    user(User) --Query--> rsq
-    rsq --is_search--> psq
-    rsq --is_qa--> psq
-    psq --> gs
+    %% Respond
+    adq -- all information found --> rar
+    rar -- answered question --> fr
+    fr -- formatted response--> done@{ shape: circle, label: "end"}
 
-    glbs --tool_call--> gs
-    lcls --tool_call--> gs
-    gs --> sr --> pras
-
-    %% - Ingredients Check
-    rsq --is_check--> icheck 
-    icheck -- has_recipe --> sr
-    icheck -- no_recipe --> psq
-
-    linkStyle 8,9,10 stroke:green,stroke-width:4px,color:white;
-
+    linkStyle 1,2,3 stroke:blue,stroke-width:4px,color:white;
+    linkStyle 4,5,6,7 stroke:purple,stroke-width:4px,color:white;
+    linkStyle 0,8,9,10 stroke:green,stroke-width:4px,color:white;
 ```
 
 
 ## Nodes
-### `route_query`
-This node is responsible for routing the user query to the appropriate tool based on the user's intent and call the respective tool to process the query.
+### Analyze & Delegate: `analyze_and_delegate`
+This node is responsible for analyzing the user query and delegating the query to the appropriate node to gather more information or to answer the query.
 
-| Route Name |       Route Node       | Description |
-|------------|------------------------|---------------------------------------------------------------|
-| `/search`  | `prepare_search_query` | Search for a recipe with chat context and/or ingredient tags. |
-| `/qa`      | `prepare_search_query` | Ask questions about a specific recipe |
-| `/check`   | `ingredient_check`     | Check if you have all the ingredients for a specific recipe. |
+### Search: `search`
+This node is responsible for finding relevant information to use to answer the user query. The search is done on an implementation of Grpah-Rag where the nodes are recipes and Q&A information. The edges are created from keyword tags for entities extracted from the recipe documents, such as ingredients.
 
-<mark>Note: If the user passes an api route name, identifying user intent will be skipped.</mark>
+Searching will return a list of sources that are relevant to the user query. If no sources are found, the node will return a message indicating that no new sources were found and added to the state.
 
-### `prepare_search_query`
-This node is responsible for preparing the query with the necessary parameters, dictated by the scope of the search. There are two types of search: global and local. The global search is responsible for searching across all sources, while the local search is responsible for searching within a source such as a specific recipe.
+#### Recipe Scope
+Some queries only require information regarding a specific recipe. In this case, the search node will only search for information regarding the specific recipe or look for information that directly refrence the recipe's **`id`** in their metadata.'
 
-The node runs search on an graph-rag implemented on a vector database(like ChromaDB). Local & Global search interact in the same way, but the local search filters out irrelevant results that are not significant to the source context(like a user selected recipe).
-
-### `graph_search`
-This node is responsible for calling the global and local search tools to search for relevent information based on the query.
-
-### `summarize_result`
-This node is responsible for summarizing the search results in a way that answers the user query.
-
-### `parse_response_and_sources`
-This node is responsible for parsing the response based on the scope of the query. The result includes the llm response, the sources used to generate the response and relevent metadata.
+### Review & Reflect: `review_and_reflect`
+This node is responsible for reviewing the information provided and answering the user query. If more information is needed, the node will request more information from the delegate node. If the user query is answered, the node will summarize the information and score the sources by relevance to the user query.

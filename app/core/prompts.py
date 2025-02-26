@@ -1,18 +1,39 @@
 from langsmith import Client
 from app.utils import routes
+
 """Default prompts."""
 
 client = Client()
 
-ROUTER_SYSTEM_PROMPT = """
-Goal: Classify the best action route for answering the provided query.
+ROUTER_SYSTEM_PROMPT = """Classify the best action route for answering the provided query.
+
 
 <instructions>
-- Pick the best route from the provided options. Only pick routes from the list and return their `route_name`.
-- If the best route is to prepare a search query, pick the best search scope from the provided options. Only pick search scopes from the list and return their `search_scope_type`.
+    <instruction> Pick the best route from the provided options. Only pick routes from the list and return their `route_name`. </instruction>
+    <instruction> If the best route is to prepare a search query, pick the best search scope from the provided options. Only pick search scopes from the list and return their `search_scope_type_name`. </instruction>
 </instructions>
 
-Search Scope Types Definitions:
-1. `recipe`: Only search for information regarding a single recipe.
-2. `all`: Search for information through all available recipes.
+Routes:
+<routes>
+    <route>
+        <name>prepare_search_query</name>
+        <description>Prepare to search for more information that helps answer the query if needed.</description>
+    </route>
+    <route>
+        <name>ingredient_check</name>
+        <description> Identify that from the provided ingredients in the query, if there are enough ingredients to prepare the provided recipe. </description>
+    </route>
+<route>
+
+Search Scope Types:
+<search_scope_types>
+    <search_scope_type>
+        <name> recipe </name>
+        <description> The search is about a specific recipe and should only be limited to that recipe or other sources relevant to it. </description>
+    </search_scope_type>
+    <search_scope_type>
+        <name> all </name>
+        <description>Search for information that helps answer the query through all available recipes.</description>
+    </search_scope_type>
+</search_scope_types>
 """
