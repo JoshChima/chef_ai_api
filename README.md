@@ -1,6 +1,8 @@
 # Chef AI API
+⚠️ **In Development** ⚠️
 
 Chef AI is a conversational AI tool that helps users discover new recipes, learn cooking techniques, and answer recipe-related questions.
+
 
 ## Features
 
