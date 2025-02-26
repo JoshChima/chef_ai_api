@@ -26,7 +26,7 @@ graph TD
     sr(summarize_result)
     pras(parse_response_and_sources)
     psq(prepare_search_query)
-    icheck(ingredients_check)
+    icheck(ingredient_check)
 
     %% Edges:
 
@@ -54,16 +54,18 @@ graph TD
 ### `route_query`
 This node is responsible for routing the user query to the appropriate tool based on the user's intent and call the respective tool to process the query.
 
-| Route Name | Description |
-|------------|-------------|
-| `/search`    | Search for a recipe with chat context and/or ingredient tags. |
-| `/qa`      | Ask questions about a specific recipe |
-| `/check`   | Check if you have all the ingredients for a specific recipe. |
+| Route Name |       Route Node       | Description |
+|------------|------------------------|---------------------------------------------------------------|
+| `/search`  | `prepare_search_query` | Search for a recipe with chat context and/or ingredient tags. |
+| `/qa`      | `prepare_search_query` | Ask questions about a specific recipe |
+| `/check`   | `ingredient_check`     | Check if you have all the ingredients for a specific recipe. |
 
-<mark>Note: If the user passes an api route, identifying user intent will be skipped.</mark>
+<mark>Note: If the user passes an api route name, identifying user intent will be skipped.</mark>
 
 ### `prepare_search_query`
 This node is responsible for preparing the query with the necessary parameters, dictated by the scope of the search. There are two types of search: global and local. The global search is responsible for searching across all sources, while the local search is responsible for searching within a source such as a specific recipe.
+
+The node runs search on an graph-rag implemented on a vector database(like ChromaDB). Local & Global search interact in the same way, but the local search filters out irrelevant results that are not significant to the source context(like a user selected recipe).
 
 ### `graph_search`
 This node is responsible for calling the global and local search tools to search for relevent information based on the query.

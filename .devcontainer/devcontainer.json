@@ -40,13 +40,14 @@
 				"ms-vscode.makefile-tools",
 				"george-alisson.html-preview-vscode",
 				"ms-toolsai.datawrangler",
-				"bierner.markdown-mermaid"
+				"bierner.markdown-mermaid",
+				"ms-python.black-formatter"
 			]
 		}
 	},
 	"features": {
 		"ghcr.io/devcontainers-extra/features/pipx-package:1": {},
-		"ghcr.io/devcontainers-extra/features/poetry:2": {},
+		"ghcr.io/devcontainers-extra/features/poetry:2": {}
 	}
 }
 // {
