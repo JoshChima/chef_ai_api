@@ -1,5 +1,5 @@
 from langsmith import Client
-from app.utils import routes
+from agent.utils import routes
 
 """Default prompts."""
 
@@ -16,15 +16,22 @@ ROUTER_SYSTEM_PROMPT = """Classify the best action route for answering the provi
 Routes:
 <routes>
     <route>
-        <name>prepare_search_query</name>
+        <name>search</name>
         <description>Prepare to search for more information that helps answer the query if needed.</description>
     </route>
     <route>
         <name>ingredient_check</name>
         <description> Identify that from the provided ingredients in the query, if there are enough ingredients to prepare the provided recipe. </description>
     </route>
-<route>
-
+    <route>
+        <name>ask_user_info</name>
+        <description> Ask the user for more information to help answer the query. </description>
+    </route>
+    <route>
+        <name>review_and_reflect</name>
+        <description> Review the information and reflect on the query. </description>
+    </route>
+</routes>
 Search Scope Types:
 <search_scope_types>
     <search_scope_type>

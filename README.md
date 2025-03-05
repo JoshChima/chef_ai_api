@@ -30,7 +30,7 @@ graph LR
 
     icheck(ingredient_check)
 
-    asku(ask_user_for_more_information)
+    asku(ask_user_info)
 
     start@{ shape: circle, label: "start"} --> adq
     %% Edges:
@@ -62,12 +62,19 @@ graph LR
 This node is responsible for analyzing the user query and delegating the query to the appropriate node to gather more information or to answer the query.
 
 ### Search: `search`
-This node is responsible for finding relevant information to use to answer the user query. The search is done on an implementation of Grpah-Rag where the nodes are recipes and Q&A information. The edges are created from keyword tags for entities extracted from the recipe documents, such as ingredients.
+This node is responsible for finding relevant information to use to answer the user query. The search is done on an implementation of Graph-Rag where the nodes are recipes and Q&A information. The edges are created from keyword tags for entities extracted from the recipe documents, such as ingredients.
 
 Searching will return a list of sources that are relevant to the user query. If no sources are found, the node will return a message indicating that no new sources were found and added to the state.
 
 #### Recipe Scope
 Some queries only require information regarding a specific recipe. In this case, the search node will only search for information regarding the specific recipe or look for information that directly refrence the recipe's **`id`** in their metadata.'
+
+### Ingredient Check: `ingredient_check`
+This node is responsible for checking if the user has all the ingredients for a recipe. If the user has all the ingredients, the node will return a message indicating that the user has all the ingredients. If the user does not have all the ingredients, the node will return a message indicating which ingredients the user is missing.
+
+### Ask User Info: `ask_user_info`
+This is a human-in-the-loop node that is responsible for asking the user for more information if the information provided is not enough to answer the user query. The node will ask the user for more information and pass the information back to the delegate node.
+
 
 ### Review & Reflect: `review_and_reflect`
 This node is responsible for reviewing the information provided and answering the user query. If more information is needed, the node will request more information from the delegate node. If the user query is answered, the node will summarize the information and score the sources by relevance to the user query.

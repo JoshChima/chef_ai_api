@@ -36,8 +36,8 @@ class OutputResponse(TypedDict):
 class QueryRouter(TypedDict):
     """Classify user query"""
 
-    type: Literal["prepare_search_query", "ingredient_check"]
-    search_scope_type: Literal["recipe", "all"]
+    type: Literal["search", "ingredient_check", "ask_user_info", "review_and_reflect"]
+    search_scope_type: Optional[Literal["recipe", "all"]]
 
 class QueryRouterOverride(QueryRouter):
     """Additional Route Parameters"""
