@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+uv.lock
 
 # C extensions
 *.so
@@ -82,6 +83,8 @@ target/
 profile_default/
 ipython_config.py
 
+data/
+
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
 #   intended to run in multiple environments; otherwise, check them in:
@@ -93,12 +96,6 @@ ipython_config.py
 #   having no cross-platform support, pipenv may install dependencies that don't work, or not
 #   install all needed dependencies.
 #Pipfile.lock
-
-# UV
-#   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
-#   commonly ignored for libraries.
-#uv.lock
 
 # poetry
 #   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
@@ -167,10 +164,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# PyPI configuration file
-.pypirc
-
-.env
-# /experimental/data
-# /api/chef_agent/data
-data/
+.langgraph_api
