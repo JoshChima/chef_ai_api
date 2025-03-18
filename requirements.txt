@@ -6,14 +6,10 @@ autokeras
 ipykernel
 regex
 openai
-openai-whisper
 langchain
 langchain-openai
 langchain-ollama
-graph_rag_example_helpers
 langchain-graph-retriever[chroma]
-gliner
-pytubefix
 python-dotenv
 pandas
 huggingface_hub
@@ -21,14 +17,19 @@ tqdm
 ipywidgets
 polars[gpu]
 langchain-community
-lightrag-hku
 transformers
-pipmaster
-nano-vectordb
 tqdm
 tiktoken
-# pyvis
 langgraph-cli[inmem]
+setuptools
+wheel
+spacy[cuda12x]
+# pytubefix
+# lightrag-hku
+# pipmaster
+# nano-vectordb
+# graph_rag_example_helpers
+# pyvis
 # accelerate==1.3.0
 # aiohappyeyeballs==2.4.4
 # aiohttp==3.11.11

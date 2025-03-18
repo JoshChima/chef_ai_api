@@ -15,6 +15,7 @@ from chef_agent.configuration import Configuration
 from chef_agent.state import InputState, ChefState
 from chef_agent.tools import TOOLS
 from chef_agent.utils import load_chat_model, format_docs
+from langgraph.checkpoint.memory import MemorySaver
 
 # Define the function that calls the model
 
@@ -68,10 +69,10 @@ async def call_model(
 
     # Return the model's response as a list to be added to existing messages
     return {"messages": [response]}
-
+    
 
 # Define a new graph
-
+checkpointer = MemorySaver()
 builder = StateGraph(ChefState, input=InputState, config_schema=Configuration)
 
 # Define the two nodes we will cycle between
@@ -123,5 +124,6 @@ builder.add_edge("tools", "call_model")
 graph = builder.compile(
     interrupt_before=[],  # Add node names here to update state before they're called
     interrupt_after=[],  # Add node names here to update state after they're called
+    checkpointer=checkpointer
 )
 graph.name = "Chef Agent"  # This customizes the name in LangSmith

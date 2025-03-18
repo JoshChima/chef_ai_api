@@ -28,8 +28,8 @@ class InputState:
     messages: Annotated[Sequence[AnyMessage], add_messages] = field(
         default_factory=list
     )
-    ingredients: Optional[list[str]] = field(default_factory=list)
-    recipe: Optional[Document] = None
+    selected_ingredients: Optional[list[str]] = field(default_factory=list)
+    selected_recipe: Optional[Document] = None
 
 @dataclass(kw_only=True)
 class OutputResponse(TypedDict):
